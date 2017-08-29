@@ -1,17 +1,17 @@
-package me.gumenny.githubler;
+package me.gumenny.githubler.presentation.activity;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
+
+import me.gumenny.githubler.presentation.activity.FragmentContainerActivity;
 
 public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this, FragmentContainerActivity.class));
+        finish();
     }
 
 }
