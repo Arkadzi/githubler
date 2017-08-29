@@ -3,6 +3,7 @@ package me.gumenny.githubler.presentation.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -40,6 +42,8 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     RecyclerView recyclerView;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
+    @Bind(R.id.empty_view)
+    View emptyView;
     private SearchView searchView;
     private UserAdapter adapter;
     @Inject
@@ -80,10 +84,26 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(SearchFragment.this);
+        MenuItemCompat.setOnActionExpandListener(item, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                presenter.onSearchCollapsed();
+                return true;
+            }
+        });
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        presenter.onSearchSubmit(query);
         return false;
     }
 
@@ -99,6 +119,7 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
 
     @Override
     public void showProgress() {
+        emptyView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
     }
@@ -112,5 +133,6 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     @Override
     public void renderList(List<User> users) {
         adapter.setData(users);
+        emptyView.setVisibility(users.isEmpty() ? View.VISIBLE : View.GONE);
     }
 }

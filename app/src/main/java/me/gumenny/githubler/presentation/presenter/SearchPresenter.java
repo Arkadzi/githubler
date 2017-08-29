@@ -11,4 +11,6 @@ import me.gumenny.githubler.presentation.view.View;
 public interface SearchPresenter extends Presenter<UserSearchView> {
     void onSearchSubmit(String query);
     void onItemClick(User user);
+
+    void onSearchCollapsed();
 }

@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import me.gumenny.githubler.R;
 import me.gumenny.githubler.domain.model.User;
+import me.gumenny.githubler.presentation.utils.CircleTransform;
 
 /**
  * Created by arkadius on 8/29/17.
@@ -29,6 +30,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
     public void bind(User user) {
         Picasso.with(ivAvatar.getContext())
                 .load(user.getAvatarUrl())
+                .transform(new CircleTransform())
                 .into(ivAvatar);
         tvNickname.setText(user.getLogin());
     }

@@ -6,11 +6,6 @@ import me.gumenny.githubler.domain.model.User;
 
 public class MapperFactory {
     public Mapper<UserEntity, User> getUserMapper() {
-        return new Mapper<UserEntity, User>() {
-            @Override
-            public User transform(UserEntity obj) throws RuntimeException {
-                return null;
-            }
-        };
+        return obj -> new User(obj.getId(), obj.getLogin(), obj.getAvatarUrl());
     }
 }

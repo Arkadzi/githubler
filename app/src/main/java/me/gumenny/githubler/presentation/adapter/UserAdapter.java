@@ -36,6 +36,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public void setData(List<User> data) {
         this.data.clear();
         this.data.addAll(data);
+        notifyDataSetChanged();
     }
 
     @Override
