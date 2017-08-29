@@ -2,7 +2,6 @@ package me.gumenny.githubler.presentation.adapter.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import me.gumenny.githubler.R;
-import me.gumenny.githubler.domain.User;
+import me.gumenny.githubler.domain.model.User;
 
 /**
  * Created by arkadius on 8/29/17.
@@ -31,6 +30,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         Picasso.with(ivAvatar.getContext())
                 .load(user.getAvatarUrl())
                 .into(ivAvatar);
-        tvNickname.setText(user.getNickname());
+        tvNickname.setText(user.getLogin());
     }
 }

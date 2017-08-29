@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.gumenny.githubler.domain.User;
+import me.gumenny.githubler.domain.model.User;
 import me.gumenny.githubler.presentation.adapter.viewholder.UserViewHolder;
 
 /**

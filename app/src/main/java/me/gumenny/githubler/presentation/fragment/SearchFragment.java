@@ -18,18 +18,22 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.gumenny.githubler.R;
-import me.gumenny.githubler.domain.User;
+import me.gumenny.githubler.app.Application;
+import me.gumenny.githubler.domain.model.User;
 import me.gumenny.githubler.presentation.adapter.UserAdapter;
-import me.gumenny.githubler.presentation.view.UserListView;
+import me.gumenny.githubler.presentation.presenter.SearchPresenter;
+import me.gumenny.githubler.presentation.view.UserSearchView;
 
 /**
  * Created by arkadius on 8/29/17.
  */
 
-public class SearchFragment extends Fragment implements UserListView, SearchView.OnQueryTextListener {
+public class SearchFragment extends Fragment implements UserSearchView, SearchView.OnQueryTextListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recycler_view)
@@ -38,20 +42,22 @@ public class SearchFragment extends Fragment implements UserListView, SearchView
     ProgressBar progressBar;
     private SearchView searchView;
     private UserAdapter adapter;
+    @Inject
+    SearchPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.getApp(getActivity()).getUserComponent().inject(this);
         setHasOptionsMenu(true);
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ButterKnife.bind(this, view);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new UserAdapter(getActivity());
         recyclerView.setAdapter(adapter);
@@ -59,7 +65,14 @@ public class SearchFragment extends Fragment implements UserListView, SearchView
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.onCreate(this);
+    }
+
+    @Override
     public void onDestroyView() {
+        presenter.onRelease();
         ButterKnife.unbind(this);
         super.onDestroyView();
     }
