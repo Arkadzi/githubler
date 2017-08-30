@@ -64,7 +64,10 @@ public class SearchPresenterImpl extends ProgressPresenter<UserSearchView>
 
     @Override
     public void onItemClick(User user) {
-
+        UserSearchView view = getView();
+        if (view != null) {
+            view.navigateToDetailScreen(user);
+        }
     }
 
     @Override

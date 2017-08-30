@@ -12,4 +12,5 @@ import me.gumenny.githubler.domain.model.User;
 
 public interface UserSearchView extends ProgressView {
     void renderList(@Nullable List<User> users);
+    void navigateToDetailScreen(User user);
 }

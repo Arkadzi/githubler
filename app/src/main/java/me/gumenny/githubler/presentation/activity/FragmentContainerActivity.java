@@ -5,13 +5,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import me.gumenny.githubler.R;
+import me.gumenny.githubler.presentation.fragment.DetailFragment;
 import me.gumenny.githubler.presentation.fragment.SearchFragment;
+import me.gumenny.githubler.presentation.utils.Navigator;
 
 /**
  * Created by arkadius on 8/28/17.
  */
 
-public class FragmentContainerActivity extends AppCompatActivity {
+public class FragmentContainerActivity extends AppCompatActivity implements Navigator {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +24,14 @@ public class FragmentContainerActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, new SearchFragment())
                     .commit();
         }
+    }
+
+
+    @Override
+    public void navigateToDetailScreen(String userId) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, DetailFragment.newInstance(userId))
+                .addToBackStack(null)
+                .commit();
     }
 }

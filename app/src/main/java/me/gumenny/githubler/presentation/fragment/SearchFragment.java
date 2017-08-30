@@ -3,6 +3,7 @@ package me.gumenny.githubler.presentation.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import me.gumenny.githubler.app.Application;
 import me.gumenny.githubler.domain.model.User;
 import me.gumenny.githubler.presentation.adapter.UserAdapter;
 import me.gumenny.githubler.presentation.presenter.SearchPresenter;
+import me.gumenny.githubler.presentation.utils.Navigator;
 import me.gumenny.githubler.presentation.view.UserSearchView;
 
 /**
@@ -72,6 +74,7 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new UserAdapter(getActivity());
         recyclerView.setAdapter(adapter);
+        adapter.setClickListener(user -> presenter.onItemClick(user));
         renderList(users);
         return view;
     }
@@ -161,5 +164,13 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
         }
         adapter.setData(users);
         emptyView.setVisibility(users.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void navigateToDetailScreen(User user) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof Navigator) {
+            ((Navigator) activity).navigateToDetailScreen(user.getId());
+        }
     }
 }
