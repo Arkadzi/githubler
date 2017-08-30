@@ -1,5 +1,7 @@
 package me.gumenny.githubler.presentation.view;
 
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 import me.gumenny.githubler.domain.model.User;
@@ -9,5 +11,5 @@ import me.gumenny.githubler.domain.model.User;
  */
 
 public interface UserSearchView extends ProgressView {
-    void renderList(List<User> users);
+    void renderList(@Nullable List<User> users);
 }

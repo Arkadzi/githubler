@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +38,7 @@ import me.gumenny.githubler.presentation.view.UserSearchView;
  */
 
 public class SearchFragment extends Fragment implements UserSearchView, SearchView.OnQueryTextListener {
+    public static final String ARG_QUERY = "arg_query";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recycler_view)
@@ -48,12 +51,16 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     private UserAdapter adapter;
     @Inject
     SearchPresenter presenter;
+    @Nullable
+    private List<User> users;
+    private String lastQuery;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Application.getApp(getActivity()).getUserComponent().inject(this);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -65,6 +72,7 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new UserAdapter(getActivity());
         recyclerView.setAdapter(adapter);
+        renderList(users);
         return view;
     }
 
@@ -72,6 +80,9 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onCreate(this);
+        if (savedInstanceState != null) {
+            lastQuery = savedInstanceState.getString(ARG_QUERY);
+        }
     }
 
     @Override
@@ -82,11 +93,23 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(ARG_QUERY, searchView.getQuery().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(SearchFragment.this);
+        if (!TextUtils.isEmpty(lastQuery)) {
+            MenuItemCompat.expandActionView(item);
+            searchView.setQuery(lastQuery, false);
+            searchView.clearFocus();
+        }
+
         MenuItemCompat.setOnActionExpandListener(item, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -131,7 +154,11 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     }
 
     @Override
-    public void renderList(List<User> users) {
+    public void renderList(@Nullable List<User> users) {
+        this.users = users;
+        if (users == null) {
+            users = new ArrayList<>();
+        }
         adapter.setData(users);
         emptyView.setVisibility(users.isEmpty() ? View.VISIBLE : View.GONE);
     }
