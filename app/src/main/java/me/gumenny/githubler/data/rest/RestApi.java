@@ -5,7 +5,9 @@ import android.content.Context;
 import java.util.List;
 
 import me.gumenny.githubler.data.entity.GetResult;
+import me.gumenny.githubler.data.entity.RepoEntity;
 import me.gumenny.githubler.data.entity.UserEntity;
+import me.gumenny.githubler.domain.model.FullUser;
 import rx.Observable;
 
 public class RestApi {
@@ -22,4 +24,11 @@ public class RestApi {
     }
 
 
+    public Observable<UserEntity> getUserByLogin(String login) {
+        return api.getUserByLogin(login);
+    }
+
+    public Observable<List<RepoEntity>> getUserRepos(String login) {
+        return api.getUserRepos(login);
+    }
 }

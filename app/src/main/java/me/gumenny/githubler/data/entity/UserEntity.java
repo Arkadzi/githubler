@@ -17,6 +17,7 @@ public class UserEntity {
     private int followersCount;
     @SerializedName("following")
     private int followingCount;
+    private String name;
 
     public String getLogin() {
         return login;
@@ -44,5 +45,9 @@ public class UserEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getName() {
+        return name;
     }
 }

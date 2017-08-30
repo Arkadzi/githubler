@@ -57,6 +57,15 @@ public class DetailPresenterImpl extends ProgressPresenter<DetailView> implement
                     view.renderUser(response);
                 }
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                DetailView view = getView();
+                if (view != null) {
+                    view.renderErrorView();
+                }
+            }
         };
     }
 }

@@ -1,17 +1,21 @@
 package me.gumenny.githubler.data;
 
-import java.util.ArrayList;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import me.gumenny.githubler.data.entity.GetResult;
+import me.gumenny.githubler.data.entity.RepoEntity;
 import me.gumenny.githubler.data.entity.UserEntity;
 import me.gumenny.githubler.data.mappers.Mapper;
 import me.gumenny.githubler.data.mappers.MapperFactory;
 import me.gumenny.githubler.data.rest.RestApi;
 import me.gumenny.githubler.domain.Repository;
 import me.gumenny.githubler.domain.model.FullUser;
+import me.gumenny.githubler.domain.model.Repo;
 import me.gumenny.githubler.domain.model.User;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by arkadius on 8/29/17.
@@ -38,6 +42,26 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public Observable<FullUser> getFullUser(String login) {
-        return null;
+        return restApi.getUserByLogin(login)
+                .map(entity -> mapperFactory.getFullUserMapper().transform(entity))
+                .flatMap(new Func1<FullUser, Observable<List<Repo>>>() {
+                    @Override
+                    public Observable<List<Repo>> call(FullUser fullUser) {
+                        return getUserRepos(login);
+                    }
+                }, (fullUser, repos) -> {
+                    fullUser.setRepositories(repos);
+                    return fullUser;
+                });
+    }
+
+    @NonNull
+    @Override
+    public Observable<List<Repo>> getUserRepos(String login) {
+        Mapper<RepoEntity, Repo> repoMapper = mapperFactory.getRepoMapper();
+        return restApi.getUserRepos(login)
+                .flatMapIterable(l -> l)
+                .map(repoMapper::transform)
+                .toList();
     }
 }

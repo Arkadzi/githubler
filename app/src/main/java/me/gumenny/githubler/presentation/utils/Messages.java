@@ -5,6 +5,7 @@ import android.support.annotation.StringRes;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,7 +28,9 @@ public class Messages {
     }
 
     public String getError(Throwable e) {
-        if (e instanceof SocketTimeoutException || e instanceof ConnectException) {
+        if (e instanceof SocketTimeoutException
+                || e instanceof ConnectException
+                || e instanceof UnknownHostException) {
             return c.getString(R.string.error_check_network_connection);
         }
         return e.getMessage();

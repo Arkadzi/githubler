@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.gumenny.githubler.R;
 import me.gumenny.githubler.app.Application;
 import me.gumenny.githubler.domain.model.FullUser;
+import me.gumenny.githubler.presentation.presenter.DetailPresenter;
 import me.gumenny.githubler.presentation.view.DetailView;
 
 
@@ -39,6 +42,8 @@ public class DetailFragment extends Fragment implements DetailView {
     private ProfileAdapter adapter;
     @Nullable
     private FullUser user;
+    @Inject
+    DetailPresenter presenter;
 
     public static DetailFragment newInstance(String login) {
 
@@ -62,6 +67,7 @@ public class DetailFragment extends Fragment implements DetailView {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         ButterKnife.bind(this, view);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        errorView.setOnClickListener(v -> presenter.onErrorViewClick());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ProfileAdapter(getActivity());
         recyclerView.setAdapter(adapter);
@@ -72,7 +78,14 @@ public class DetailFragment extends Fragment implements DetailView {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.onCreate(this);
+    }
+
+    @Override
     public void onDestroyView() {
+        presenter.onRelease();
         ButterKnife.unbind(this);
         super.onDestroyView();
     }
