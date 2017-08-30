@@ -12,4 +12,5 @@
     <string name="hint_company">Company</string>
     <string name="hint_followers_count">Followers count</string>
     <string name="hint_following_count">Following count</string>
+    <string name="hint_profile">Profile</string>
 </resources>
