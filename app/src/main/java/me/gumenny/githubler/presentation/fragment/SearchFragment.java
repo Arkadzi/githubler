@@ -170,7 +170,7 @@ public class SearchFragment extends Fragment implements UserSearchView, SearchVi
     public void navigateToDetailScreen(User user) {
         FragmentActivity activity = getActivity();
         if (activity instanceof Navigator) {
-            ((Navigator) activity).navigateToDetailScreen(user.getId());
+            ((Navigator) activity).navigateToDetailScreen(user.getLogin());
         }
     }
 }

@@ -2,6 +2,7 @@ package me.gumenny.githubler.data.di;
 
 import dagger.Subcomponent;
 import me.gumenny.githubler.data.di.scope.UserScope;
+import me.gumenny.githubler.presentation.fragment.DetailFragment;
 import me.gumenny.githubler.presentation.fragment.SearchFragment;
 
 
@@ -14,4 +15,6 @@ import me.gumenny.githubler.presentation.fragment.SearchFragment;
 public interface UserComponent {
 
     void inject(SearchFragment searchFragment);
+
+    void inject(DetailFragment detailFragment);
 }

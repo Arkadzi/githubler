@@ -28,9 +28,9 @@ public class FragmentContainerActivity extends AppCompatActivity implements Navi
 
 
     @Override
-    public void navigateToDetailScreen(String userId) {
+    public void navigateToDetailScreen(String login) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DetailFragment.newInstance(userId))
+                .replace(R.id.fragment_container, DetailFragment.newInstance(login))
                 .addToBackStack(null)
                 .commit();
     }

@@ -11,6 +11,12 @@ public class UserEntity {
     String id;
     @SerializedName("avatar_url")
     String avatarUrl;
+    private String company;
+    private String email;
+    @SerializedName("followers")
+    private int followersCount;
+    @SerializedName("following")
+    private int followingCount;
 
     public String getLogin() {
         return login;
@@ -22,5 +28,21 @@ public class UserEntity {
 
     public String getAvatarUrl() {
         return avatarUrl;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public int getFollowingCount() {
+        return followingCount;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

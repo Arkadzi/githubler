@@ -16,17 +16,18 @@ import me.gumenny.githubler.presentation.utils.CircleTransform;
  * Created by arkadius on 8/29/17.
  */
 
-public class UserViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends BaseViewHolder<User> {
 
     private final ImageView ivAvatar;
     private final TextView tvNickname;
 
     public UserViewHolder(LayoutInflater layoutInflater, ViewGroup parent) {
-        super(layoutInflater.inflate(R.layout.item_user, parent, false));
+        super(layoutInflater, parent, R.layout.item_user);
         ivAvatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
         tvNickname = (TextView) itemView.findViewById(R.id.tv_nickname);
     }
 
+    @Override
     public void bind(User user) {
         Picasso.with(ivAvatar.getContext())
                 .load(user.getAvatarUrl())

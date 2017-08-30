@@ -10,7 +10,10 @@ import me.gumenny.githubler.data.mappers.MapperFactory;
 import me.gumenny.githubler.data.rest.RestApi;
 import me.gumenny.githubler.data.rest.RetrofitApi;
 import me.gumenny.githubler.domain.Repository;
+import me.gumenny.githubler.domain.usecase.GetFullUserUseCase;
 import me.gumenny.githubler.domain.usecase.SearchUsersUseCase;
+import me.gumenny.githubler.presentation.presenter.DetailPresenter;
+import me.gumenny.githubler.presentation.presenter.DetailPresenterImpl;
 import me.gumenny.githubler.presentation.presenter.SearchPresenter;
 import me.gumenny.githubler.presentation.presenter.SearchPresenterImpl;
 import me.gumenny.githubler.presentation.utils.Messages;
@@ -38,6 +41,13 @@ public class UserModule {
     public SearchPresenter provideSearchPresenter(Messages messages,
                                                   SearchUsersUseCase searchUsersUseCase) {
         return new SearchPresenterImpl(messages, searchUsersUseCase);
+    }
+
+    @Provides
+    @UserScope
+    public DetailPresenter provideDetailPresenter(Messages messages,
+                                                  GetFullUserUseCase getFullUserUseCase) {
+        return new DetailPresenterImpl(messages, getFullUserUseCase);
     }
 
 }

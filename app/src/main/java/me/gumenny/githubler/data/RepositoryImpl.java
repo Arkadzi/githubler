@@ -9,6 +9,7 @@ import me.gumenny.githubler.data.mappers.Mapper;
 import me.gumenny.githubler.data.mappers.MapperFactory;
 import me.gumenny.githubler.data.rest.RestApi;
 import me.gumenny.githubler.domain.Repository;
+import me.gumenny.githubler.domain.model.FullUser;
 import me.gumenny.githubler.domain.model.User;
 import rx.Observable;
 
@@ -33,5 +34,10 @@ public class RepositoryImpl implements Repository {
                 .flatMapIterable(l -> l)
                 .map(userMapper::transform)
                 .toList();
+    }
+
+    @Override
+    public Observable<FullUser> getFullUser(String login) {
+        return null;
     }
 }

@@ -6,4 +6,10 @@
     <string name="action_search">Search</string>
     <string name="error_check_network_connection">Please, check network exception…</string>
     <string name="hint_no_result">No result</string>
+    <string name="action_retry">Retry</string>
+    <string name="hint_empty">-</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_company">Company</string>
+    <string name="hint_followers_count">Followers count</string>
+    <string name="hint_following_count">Following count</string>
 </resources>
