@@ -16,6 +16,10 @@ public class FullUser extends User {
     private int followersCount;
     private int followingCount;
 
+    public FullUser() {
+        super("", "", "");
+    }
+
     public FullUser(String id, String login, String avatarUrl, String name, String company, String email, int followersCount, int followingCount) {
         super(id, login, avatarUrl);
         repositories = new ArrayList<>();

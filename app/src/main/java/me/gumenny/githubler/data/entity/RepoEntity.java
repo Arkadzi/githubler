@@ -12,6 +12,18 @@ public class RepoEntity {
     @SerializedName("created_at")
     private String createdAt;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getId() {
         return id;
     }
